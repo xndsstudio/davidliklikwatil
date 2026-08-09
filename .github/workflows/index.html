@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Player</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            pointer-events: none;
+            transition: background 0.3s ease;
+            z-index: 1;
+        }
+
+        .overlay.dimmed {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(0, 0, 0, 0.9);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            z-index: 2;
+        }
+
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            background: #000;
+            overflow: hidden;
+        }
+
+        video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .info {
+            padding: 30px;
+            color: #fff;
+        }
+
+        .info h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .info p {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Custom video controls styling */
+        video::-webkit-media-controls {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
+        video::-webkit-media-controls-play-button {
+            background-color: #667eea;
+        }
+
+        @media (max-width: 600px) {
+            .info {
+                padding: 20px;
+            }
+
+            .info h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay" id="overlay"></div>
+    <div class="container">
+        <div class="video-wrapper">
+            <video id="videoPlayer" controls controlsList="nodownload">
+                <source src="DavidLiklikwatil_compressed.mp4" type="video/mp4">
+                Je browser ondersteunt HTML5 video niet.
+            </video>
+        </div>
+        <div class="info">
+            <h1>Video Player</h1>
+            <p>Klik op play om af te spelen. De achtergrond dimmt automatisch.</p>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('videoPlayer');
+        const overlay = document.getElementById('overlay');
+
+        // Dim overlay when playing
+        video.addEventListener('play', () => {
+            overlay.classList.add('dimmed');
+        });
+
+        // Remove dim when paused or ended
+        video.addEventListener('pause', () => {
+            overlay.classList.remove('dimmed');
+        });
+
+        video.addEventListener('ended', () => {
+            overlay.classList.remove('dimmed');
+        });
+    </script>
+</body>
+</html>
